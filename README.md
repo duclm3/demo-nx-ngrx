@@ -18,6 +18,7 @@ This project was generated using [Nx](https://nx.dev).
 
 ## How to run the app 
 Run application - `ng serve course`
+
 Run api - `java -jar course-1.0.0-SNAPSHOT.jar`
 
 ## Adding capabilities to your workspace
