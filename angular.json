@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "projects": {
+    "course": {
+      "projectType": "application",
+      "root": "apps/course",
+      "sourceRoot": "apps/course/src",
+      "prefix": "demo-nx-ngrx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/course",
+            "index": "apps/course/src/index.html",
+            "main": "apps/course/src/main.ts",
+            "polyfills": "apps/course/src/polyfills.ts",
+            "tsConfig": "apps/course/tsconfig.app.json",
+            "assets": ["apps/course/src/favicon.ico", "apps/course/src/assets"],
+            "styles": ["apps/course/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/course/src/environments/environment.ts",
+                  "with": "apps/course/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "course:build:production"
+            },
+            "development": {
+              "browserTarget": "course:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "course:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/course/src/**/*.ts",
+              "apps/course/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/course"],
+          "options": {
+            "jestConfig": "apps/course/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "course-e2e": {
+      "root": "apps/course-e2e",
+      "sourceRoot": "apps/course-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/course-e2e/cypress.json",
+            "tsConfig": "apps/course-e2e/tsconfig.e2e.json",
+            "devServerTarget": "course:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "course:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/course-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "defaultProject": "course"
+}
